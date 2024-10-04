@@ -1,260 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>50 Challenges</title>
+
+    <script src="./component.js"></script>
 </head>
+
 <body>
-    <div id="root"></div>
-    <script>
-        let output="";
-        
-        function getDistinctArray(numbers) {
-            return [...new Set(numbers)];
-        }
-        function isPrime(num) {
-            if (num < 2) return false;
-            for (let i = 2; i <= Math.sqrt(num); i++) {
-                if (num % i === 0) return false;
-            }
-            return true;
-        }
-        function sumFirst100Primes() {
-            let primes = [];
-            let num = 2; // Bắt đầu từ số 2 vì 2 là số nguyên tố đầu tiên
-            let sum = 0;
-        
-            // Vòng lặp tìm 100 số nguyên tố đầu tiên
-            while (primes.length < 100) {
-                if (isPrime(num)) {
-                    primes.push(num); // Thêm số nguyên tố vào mảng
-                    sum += num;       // Cộng số nguyên tố vào tổng
-                }
-                num++;
-            }
-            return "Sum: "+sum+"<br>"+primes; 
-        }
-        function findFirst100Primes() {
-            let primes = [];
-            let num = 2; // Bắt đầu từ số 2, vì 2 là số nguyên tố đầu tiên
-        
-            // Vòng lặp để tìm 100 số nguyên tố
-            while (primes.length < 100) {
-                if (isPrime(num)) {
-                    primes.push(num); // Thêm số nguyên tố vào mảng
-                }
-                num++;
-            }
-        
-            return primes;
-        }
-        function calculatePrimeDistances(primes) {
-            let distances = [];
-        
-            for (let i = 1; i < primes.length; i++) {
-                distances.push(primes[i] - primes[i - 1]); // Khoảng cách giữa số nguyên tố hiện tại và trước đó
-            }
-        
-            return distances;
-        }
-        function addLargeNumbers(num1, num2) {
-            let result = '';  // Chuỗi lưu kết quả
-            let carry = 0;    // Biến lưu giá trị dư khi cộng vượt quá 9
-            let i = num1.length - 1;
-            let j = num2.length - 1;
-        
-            // Lặp lại từ chữ số cuối cùng của hai chuỗi
-            while (i >= 0 || j >= 0 || carry > 0) {
-                // Lấy chữ số cuối cùng (hoặc 0 nếu chuỗi đã hết)
-                let digit1 = i >= 0 ? parseInt(num1[i]) : 0;
-                let digit2 = j >= 0 ? parseInt(num2[j]) : 0;
-        
-                // Cộng hai chữ số và giá trị dư
-                let sum = digit1 + digit2 + carry;
-        
-                // Tính lại carry và chữ số hiện tại
-                carry = Math.floor(sum / 10);
-                result = (sum % 10) + result;
-        
-                // Dịch chuyển sang chữ số tiếp theo
-                i--;
-                j--;
-            }
-        
-            return result;
-        }
-        function countWords(text) {
-            // Tách văn bản thành các từ bằng cách loại bỏ khoảng trắng thừa
-            let words = text.trim().split(/\s+/);
-            // Trả về số lượng từ
-            return words.length;
-        }
-        function capitalizeFirstLetter(text) {
-            // Tách chuỗi thành các từ bằng dấu cách
-            let words = text.split(' ');
-        
-            // Viết hoa chữ cái đầu tiên của mỗi từ
-            let capitalizedWords = words.map(word => {
-                // Kiểm tra từ có phải là chuỗi không rỗng
-                if (word.length > 0) {
-                    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-                }
-                return word; // Trả lại từ gốc nếu nó rỗng
-            });
-        
-            // Ghép lại thành chuỗi
-            return capitalizedWords.join(' ');
-        }
-        function sumOfCommaDelimitedString(str) {
-            // Tách chuỗi thành mảng các số bằng dấu phẩy
-            let numbers = str.split(',').map(num => num.trim()); // Loại bỏ khoảng trắng thừa
-        
-            // Chuyển đổi các chuỗi số thành số thực và tính tổng
-            let sum = numbers.reduce((acc, num) => {
-                let number = parseFloat(num); // Chuyển đổi chuỗi thành số thực
-                return acc + (isNaN(number) ? 0 : number); // Nếu không phải số, bỏ qua
-            }, 0);
-        
-            return sum;
-        }
-        function extractWords(text) {
-            // Tách chuỗi thành các từ bằng cách sử dụng biểu thức chính quy
-           
-            let words = text.trim().split(/\s+/);
-        
-            // Nếu không tìm thấy từ nào, trả về mảng rỗng
-            return words || [];
-        }
-        function csvToArray(csvText) {
-            // Tách văn bản CSV thành các hàng
-            let rows = csvText.trim().split('\n');
-            
-            // Tách mỗi hàng thành các cột và lưu vào mảng hai chiều
-            let result = rows.map(row => row.split(','));
-        
-            return result;
-        }
-        function stringToArray(text) {
-            // Tách chuỗi thành mảng các ký tự
-            return text.split('');
-        }
-        function stringToAsciiArray(text) {
-            // Tạo mảng chứa mã ASCII của từng ký tự
-            let asciiArray = [];
-            for (let i = 0; i < text.length; i++) {
-                asciiArray.push(text.charCodeAt(i));
-            }
-            return asciiArray;
-        }
-        function asciiArrayToString(asciiArray) {
-            // Chuyển đổi mảng mã ASCII thành chuỗi ký tự
-            return asciiArray.map(code => String.fromCharCode(code)).join('');
-        }
-        function caesarCipher(text, shift) {
-            // Chuyển đổi tất cả các ký tự thành chữ cái hoa
-            return text.split('').map(char => {
-                // Kiểm tra xem ký tự có phải là chữ cái không
-                if (char.match(/[a-zA-Z]/)) {
-                    // Xác định mã ASCII của ký tự gốc
-                    let base = char.charCodeAt(0) < 91 ? 65 : 97;
-                    // Chuyển đổi ký tự dựa trên dịch chuyển
-                    return String.fromCharCode(((char.charCodeAt(0) - base + shift) % 26 + 26) % 26 + base);
-                }
-                // Nếu không phải chữ cái, giữ nguyên ký tự
-                return char;
-            }).join('');
-        }
-        function bubbleSort(arr) {
-            let n = arr.length;
-            let swapped;
-        
-            // Lặp qua toàn bộ mảng
-            for (let i = 0; i < n - 1; i++) {
-                swapped = false;
-        
-                // So sánh và hoán đổi các phần tử liền kề
-                for (let j = 0; j < n - 1 - i; j++) {
-                    if (arr[j] > arr[j + 1]) {
-                        // Hoán đổi các phần tử
-                        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
-                        swapped = true;
-                    }
-                }
-        
-                // Nếu không có phần tử nào bị hoán đổi, mảng đã được sắp xếp
-                if (!swapped) break;
-            }
-        
-            return arr;
-        }
-        
+    <div class="from1to10">
+        <h1>
+            29. Print the distance between the first 100 prime numbers
+        </h1>
+        <script>
+            // Example usage:
+            const first100Prime = getFirst100Primes();
+            printPrimeDistances(first100Prime);
+        </script>
+        <h1>
+            31. Create a function that will return the number of words in a text
+        </h1>
+        <script>
+            const text = "This is an example sentence to count words.";
+            const wordCount = countWords(text);
+            document.write(wordCount);  // Output: 7
+        </script>
+        <h1>
+            32. Create a function that will capitalize the first letter of each word in a text
+        </h1>
+        <script>
+            const sentence = "this is an example sentence.";
+            const capitalizedSentence = capitalizeWords(sentence);
+            document.write(capitalizedSentence);  // Output: "This Is An Example Sentence."
+        </script>
+        <h1>
+            33. Calculate the sum of numbers received in a comma delimited string
+        </h1>
+        <script>
+            const str = "1,2,3,4,5";
+            document.write(sumFromCommaDelimitedString(str)); // Output: 15
+        </script>
+        <h1>
+            34. Create a function that returns an array with words inside a text.
+        </h1>
+        <script>
+            const sentences = "This is an example sentence.";
+            document.write(getWords(sentences)); // Output: ["This", "is", "an", "example", "sentence"]
+        </script>
+        <h1>
+            35. Create a function to convert a CSV text to a “bi-dimensional” array
+        </h1>
+        <script>
+            const csv = "name,age\ntom,30\njane,25";
+            document.write(csvToArray(csv)); // Output: [["name", "age"], ["tom", "30"], ["jane", "25"]]
+        </script>
+        <h1>
+            36. Create a function that converts a string to an array of characters
+        </h1>
+        <script>
+            const texts = "hello";
+            document.write(stringToCharArray(texts)); // Output: ['h', 'e', 'l', 'l', 'o']
+        </script>
+        <h1>
+            37. Create a function that will convert a string in an array containing the ASCII codes of each character
+        </h1>
+        <script>
+            document.write(stringToAsciiArray("ABC")); // Output: [65, 66, 67]
+        </script>
+        <h1>
+            38. Create a function that will convert an array containing ASCII codes in a string
+        </h1>
+        <script>
+            document.write(asciiArrayToString([65, 66, 67])); // Output: "ABC"
+        </script>
+        <h1>
 
+            39. Implement the Caesar cypher
+        </h1>
+        <script>
 
-        output+= "27.Create a function that will receive an array of numbers as argument and will return a new array with distinct elements <br>";
-        output+= `Distinct of array [1,2,3,3,3,5,6,7,7,8] :${getDistinctArray([[1,2,3,3,3,5,6,7,7,8]])} <br>`;
-        
-        output+="28. Calculate the sum of first 100 prime numbers and return them in an array <br>";
-        output+=`${sumFirst100Primes().sum}<br>`;
-        
-        output+="29. Print the distance between the first 100 prime numbers <br>";
-        let primes= findFirst100Primes();
-        output+=`${calculatePrimeDistances(primes)}<br>`;
+            document.write(caesarCipher("hello", 3)); // Output: "khoor"
+        </script>
+        <h1>
 
-        output+="30. Create a function that will add two positive numbers of indefinite size. The numbers are received as strings and the result should be also provided as string.<br>";
-        let num1 = "123456";
-        let num2 = "789101";
-        output+=`Num1= 123456 & Num2= 789101 Result= ${addLargeNumbers(num1,num2)}<br>`;
+            40. Implement the bubble sort algorithm for an array of numbers
+        </h1>
+        <script>
+document.write(bubbleSort([5, 3, 8, 4, 2])); // Output: [2, 3, 4, 5, 8]
 
-        output+="31. Create a function that will return the number of words in a text <br>";
-        let text= "Xin chào Việt Nam";
-        output+=`Length of "Xin chào Việt Nam" :${countWords(text)}<br>`;
+        </script>
+        <h1>
+            41. Create a function to calculate the distance between two points defined by their x, y
+            coordinates
 
-        output+="32. Create a function that will capitalize the first letter of each word in a text <br>";
-        let textLowerCase= "tôi yêu việt nam";
-        output+=`Capitalize the first letter of each word "tôi yêu việt nam" :${capitalizeFirstLetter(textLowerCase)}<br>`;
+        </h1>
+        <script>
+            document.write(distance(0, 0, 3, 4)); // Output: 5     
+        </script>
+        <h1>
 
-        output+="33. Calculate the sum of numbers received in a comma delimited string <br>";
-        let string="10,20,14,18";
-        output+=`Sum number of string "10,20,14,18"= ${sumOfCommaDelimitedString(string)}<br>`;
+            42. Create a function that will return a Boolean value indicating if two circles
+            defined by center coordinates and radius are intersecting
+        </h1>
+        <script>
+            document.write(circlesIntersect(0, 0, 5, 8, 8, 3)); // Output: false
+        </script>
+        <h1>
+            43. Create a function that will receive a bi-dimensional array as argument and a
+            number and will extract as a unidimensional array the column specified by the
+            number
 
-        output+="34. Create a function that returns an array with words inside a text <br>";
-        output+=`an array with words inside "Xin chào Việt Nam" :[${extractWords(text)}]<br>`;
+        </h1>
+        <script>
+            const matrix = [[1, 2], [3, 4], [5, 6]];
+            document.write(extractColumn(matrix, 1)); // Output: [2, 4, 6]
+        </script>
+        <h1>
 
-        output+="35. Create a function to convert a CSV text to a “bi-dimensional” array <br>";
-        let csvText = `Tên,Tuổi,Địa chỉ
-        John,30,New York
-        Jane,25,Los Angeles
-        Doe,40,San Francisco`;
-        output+=`Array 2D of CSV text <br>"Tên,Tuổi,Địa chỉ<br>
-        John,30,New York<br>
-        Jane,25,Los Angeles<br>
-        Doe,40,San Francisco"<br>[${csvToArray(csvText)}]<br>`;
+            44. Create a function that will convert a string containing a binary number into a
+            number
+        </h1>
+        <script>
+            document.write(binaryToNumber("1101")); // Output: 13
+        </script>
+        <h1>
 
-        output+="36. Create a function that converts a string to an array of characters <br>";
-        output+=`Array of characters for string "Xin chào Việt Nam" :[${stringToArray(text)}]<br>`;
+            45. Create a function to calculate the sum of all the numbers in a jagged array
+            (contains numbers or other arrays of numbers on an unlimited number of
+            levels)
+        </h1>
 
-        output+="37. Create a function that will convert a string in an array containing the ASCII codes of each character <br>";
-        output+=`the ASCII codes of each character "Xin chào Việt Nam" :[${stringToAsciiArray(text)}]<br>`;
+        <script>
+            document.write(sumJaggedArray([1, [2, [3, 4], 5], 6])); // Output: 21
+        </script>
+        <h1>
+            46. Find the maximum number in a jagged array of numbers or array of numbers
 
-        output+="38. Create a function that will convert an array containing ASCII codes in a string <br>";
-        let ASCIIText=[88,105,110,32,99,104,224,111,32,86,105,7879,116,32,78,97,109];
-        output+=`a string ontaining ASCII codes "[88,105,110,32,99,104,224,111,32,86,105,7879,116,32,78,97,109]" :[${asciiArrayToString(ASCIIText)}]<br>`;
-
-        output+="39. Implement the Caesar cypher <br>";
-        let textCaesar="Viet Nam"
-        output+=`Text: "Viet Nam" <br> Shift: 3 <br> ${caesarCipher(textCaesar,3)}<br>`;
-
-        output+="40. Implement the bubble sort algorithm for an array of numbers <br>";
-        let bubbleArrayt=[29,78,12,100,45,55];
-        output+=`the bubble sort algorithm for an array [29,78,12,100,45,55] :[${bubbleSort(bubbleArrayt)}]<br>`;
-
-
-
-
-
-        document.getElementById("root").innerHTML = output ; 
-    </script>
-   
+        </h1>
+        <script>
+            document.write(maxInJaggedArray([1, [2, [3, 10], 5], 6])); // Output: 1
+        </script>
+        <h1>
+            47. Deep copy a jagged array with numbers or other arrays in a new array
+        </h1>
+        <script>
+            const jaggedArray = [1, [2, [3]], 4];
+            const copiedArray = deepCopyJaggedArray(jaggedArray);
+            document.write(copiedArray); // Output: [1, [2, [3]], 4]
+        </script>
+        <h1>
+            48. Create a function to return the longest word in a string
+        </h1>
+        <script>
+            document.write(longestWord("This is a simple example sentence.")); // Output: "example"
+        </script>
+        <h1>
+            49. Shuffle an array of strings
+        </h1>
+        <script>
+            document.write(shuffleArray(["apple", "banana", "cherry", "date"]));
+        </script>
+        <h1>
+            50. Create a function that will receive n as argument and return an array of n
+            random numbers from 1 to n. The numbers should be unique inside the array.
+        </h1>
+        <script>
+            document.write(uniqueRandomNumbers(5)); // Output: Random unique numbers from 1 to 5
+        </script>
+    </div>
 </body>
+
 </html>
